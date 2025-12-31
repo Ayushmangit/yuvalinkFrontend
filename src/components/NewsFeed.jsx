@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function NewsFeed({ onViewAll }) {
+export default function NewsFeed({ onViewAll,onDataLoaded }) {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -10,8 +10,11 @@ export default function NewsFeed({ onViewAll }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        setNews(data.articles || []);
+        const articles = data.articles || [];
+        setNews(articles);
+        onDataLoaded && onDataLoaded(articles); // 👈 YAHAN MAGIC
         setLoading(false);
+            
       })
       .catch((err) => {
         console.error("News API error:", err);
@@ -30,7 +33,7 @@ export default function NewsFeed({ onViewAll }) {
   return (
     <div className="w-full">
       {/* HEADER */}
-      <div className="flex justify-between items-center mb-4 px-2">
+      <div className="flex justify-between items-center mb-4 px-4">
         <h3 className="text-lg font-bold text-gray-800">
           Live Disaster Feed
         </h3>
@@ -46,30 +49,41 @@ export default function NewsFeed({ onViewAll }) {
       </div>
 
       {/* FEED ROW */}
-      <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+      <div className="flex gap-6 overflow-x-auto pb- scrollbar-hide">
         {news.slice(0, 5).map((item, i) => (
           <div
             key={i}
-            className="min-w-[300px] max-w-[320px]
+            className="min-w-[260px] max-w-[280px] h-[300px]
                        bg-white rounded-2xl
                        border border-black
-                       p-5 shadow-md
-                       hover:-translate-y-1 transition"
+                       p-2 shadow-md
+                      "
           >
-            <h4 className="font-bold text-lg mb-2">
+            <h4 className="font-bold text-base mb-3 line-clamp-3">
               {item.title}
             </h4>
 
-            <p className="text-gray-600 text-sm mb-3">
+            <p className="text-gray-600 text-sm mb-2 line-clamp-3">
               {item.description || "No description available"}
             </p>
-
-            <span className="text-xs text-gray-500">
+             {/* 🔗 MORE INFO LINK */}
+  {item.url && (
+    <a
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 text-xs font-semibold
+                 hover:underline mb-2 inline-block"
+    >
+      More info →
+    </a>
+  )}
+            <span className="text-xs text-gray-500 mb-4">
               {item.source?.name} •{" "}
               {new Date(item.publishedAt).toLocaleTimeString()}
             </span>
 
-            <div className="flex justify-end mt-4">
+            <div className="mt-auto flex justify-center">
               <button
                 className="px-4 py-2 rounded-full
                            bg-gradient-to-r

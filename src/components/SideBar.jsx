@@ -2,7 +2,10 @@ export default function SideBar({
   isOpen,
   onClose,
   onOpenNews,
-  onChatClick
+  onChatClick,
+  onProfileClick,
+  onSettingsClick
+
 }) {
   return (
     <>
@@ -46,11 +49,13 @@ export default function SideBar({
             <i className="bi bi-file-bar-graph-fill text-2xl"></i>
           </li>
 
-          <li className="cursor-pointer hover:scale-110 transition">
+          <li className="cursor-pointer hover:scale-110 transition"
+           onClick={onProfileClick}
+          >
             <i className="bi bi-person-fill text-2xl"></i>
           </li>
 
-          <li className="cursor-pointer hover:scale-110 transition mt-auto">
+          <li className="cursor-pointer hover:scale-110 transition mt-auto" onClick={onSettingsClick}>
             <i className="bi bi-gear-fill text-2xl"></i>
           </li>
         </ul>
