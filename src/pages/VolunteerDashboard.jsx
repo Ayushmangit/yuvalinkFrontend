@@ -5,7 +5,7 @@ import Sidebar from "../components/SideBar";
 
 import ProfileStrip from "../components/ProfileStrip";
 import DashboardCards from "../components/DashboardCards";
-import TasksSection from "../components/TaskSection";
+import TasksSection from "../components/TasksSection";
 import TeamDetails from "../components/TeamDetails";
 import ActivityHistory from "../components/ActivityHistory";
 
@@ -25,6 +25,31 @@ export default function VolunteerDashboard() {
     tier: "Tier-2",
     status: "Available",
   });
+
+  const [teamDetails, setTeamDetails] = useState({
+    teamName: "Relief Operations Unit - Alpha",
+    category: "Medical & Logistics Support",
+    role: "Field Coordinator",
+    leaderName: "Captain Anil Verma",
+    leaderContact: "+91-98765-43210"
+  });
+
+  const [activityHistory, setActivityHistory] = useState([
+    {
+        date: "2025-12-20",
+        incident: "Flood Relief - Kerala",
+        task: "Medical Aid Distribution",
+        status: "Completed",
+        feedback: "Submitted",
+    },
+    {
+         date: "2025-12-15",
+        incident: "Fire Response - Mumbai",
+        task: "Evacuation Support",
+        status: "Completed",
+        feedback: "Pending",
+    },
+  ]);
 
   const images = [
     "/d1.jpg",
@@ -109,8 +134,8 @@ export default function VolunteerDashboard() {
                     tier={dashboardStats.tier}
                     status={dashboardStats.status} />
                 <TasksSection />
-                <TeamDetails />
-                <ActivityHistory />
+                <TeamDetails {...teamDetails}/>
+                <ActivityHistory activities={activityHistory}/>
             </div>
         </div>
         
