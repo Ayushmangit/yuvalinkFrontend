@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Sidebar from "../components/SideBar";
+import VolunteerSideBar from "../components/VolunteerSideBar";
 
 
 import ProfileStrip from "../components/ProfileStrip";
@@ -90,10 +90,10 @@ export default function VolunteerDashboard() {
                 className="fixed top-2 left-2 z-[60] w-[50px] h-[44px] flex items-center justify-center bg-[#1F3347] rounded-xl backdrop-blur-md"
                 onClick={() => setSidebarOpen(true)}
             >
-                <i className="bi bi-list fs-1"></i>
+                <i className="bi bi-list text-3xl text-white"></i>
             </button>
 
-            <div className="relative z-10 flex items-center justify-center h-full">
+            <div className="absolute top-5 left-1/2 -translate-x-1/2 z-10">
                 <div className="bg-[#1F3347]/90 backdrop-blur-md px-12 py-6 rounded-2xl">
                     <h1 className="text-4xl font-bold text-white">Yuvalink</h1>
                 </div>                
@@ -101,8 +101,8 @@ export default function VolunteerDashboard() {
         </div>
 
 
-        <div className="w-full h-[80vh] bg-[#1F3347]"></div> 
-        <div className ="relative mx-auto -mt-[60vh] w-[72%] bg-white rounded-2xl shadow-2xl p-6 z-10">
+        <div className="relative bg-[#1F3347] pt-[10vh] pb-32"></div> 
+        <div className ="relative mx-auto -mt-[95vh] w-[72%] bg-white rounded-2xl shadow-2xl p-6">
             <div className="relative max-w-[1100px] mx-auto h-[300px] p-8">
                 <button  onClick={prev}
                     className="absolute left-4 top-1/2 -translate-y-1/2
@@ -127,21 +127,37 @@ export default function VolunteerDashboard() {
             </div>
 
             <div className="space-y-8 mt-6">
-                <ProfileStrip {...volunteer}/>            
+                <div id="top">
+                    <ProfileStrip {...volunteer}/>
+                </div>          
                 <DashboardCards 
                     verified= {dashboardStats.verified}
                     activeTasks={dashboardStats.activeTasks}
                     tier={dashboardStats.tier}
                     status={dashboardStats.status} />
-                <TasksSection />
-                <TeamDetails {...teamDetails}/>
-                <ActivityHistory activities={activityHistory}/>
+                <div id="tasks"><TasksSection /></div>
+                <div id="team"><TeamDetails {...teamDetails}/></div>
+                <div id="history"><ActivityHistory activities={activityHistory}/></div>
             </div>
         </div>
         
-        <Sidebar 
+        {/* <Sidebar 
             isOpen={sidebarOpen}
             onClose={ () => setSidebarOpen(false)}
+        /> */}
+
+        <VolunteerSideBar
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)} onNavigate={(section)=> {
+                setSidebarOpen(false);
+                if (section === "top") {
+                    window.scrollTo({top:0, behavior: "smooth"});
+                } else {
+                    document.getElementById(section)?.scrollIntoView({
+                        behavior: "smooth",
+                    });
+                }
+            }}
         />
 
         <section className="bg-[#1F3347] py-20 px-[12%] text-center">
