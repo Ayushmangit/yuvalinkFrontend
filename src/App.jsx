@@ -1,11 +1,7 @@
-
+import AdminDashboard from "./pages/AdminDashboard";
 function App() {
 
-  return (
-    <>
-      <h1 className="text-red-700">Hello World</h1>
-    </>
-  )
+  return <AdminDashboard/>
 }
 
 export default App
