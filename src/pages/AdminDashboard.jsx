@@ -2,11 +2,15 @@ import {useEffect,useRef,useState} from "react"
 import SideBar from "../components/SideBar";
 import StatsPanel from "../components/StatsPanel";
 import Chat from "../components/Chat";
+import User from "../components/User";
 import NewsFeed from "../components/NewsFeed";
+import SettingAdmin from "../components/SettingAdmin";
 export default function AdminDashboard(){
     const images = [
         "/d1.jpg","/d3.jpg","/d4.jpg","/d5.jpg","/d6.jpg"
     ];
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [profileOpen,setProfileOpen]=useState(false);
     const[index,setIndex]=useState(0);
     const [activeBg, setActiveBg] = useState(images[0]);
     const [sidebarOpen,setSidebarOpen]=useState(false);
@@ -59,13 +63,13 @@ export default function AdminDashboard(){
             <i className ="bi bi-list text-3xl text-white fs-1 "></i>
             </button>
         <div className="absolute top-5 left-1/2 -translate-x-1/2 z-10">
-  <div className="bg-[#1F3347]/90 backdrop-blur-md px-12 py-6 rounded-2xl">
-    <h1 className="text-4xl font-bold text-white">
-      Yuvalink
-    </h1>
-  </div>
-</div>
-</div>
+         <div className="bg-[#1F3347]/90 backdrop-blur-md px-12 py-6 rounded-2xl">
+            <h1 className="text-4xl font-bold text-white">
+            Yuvalink
+            </h1>
+        </div>
+        </div>
+        </div>
         {/* <div className="relative w-full bg-[#1F3347]"> */}
         <div className="relative  bg-[#1F3347] pt-[35vh] pb-32 ">
         <div className ="relative mx-auto -mt-[85vh] w-[72%] bg-white rounded-2xl shadow-2xl p-6 ">
@@ -90,12 +94,12 @@ export default function AdminDashboard(){
                     <i className="bi bi-arrow-right"></i>
                 </button>
             </div>
-   <NewsFeed
-  onViewAll={() => setShowAllFeed(true)}
-  onDataLoaded={(data) =>{
-      console.log("DATA RECEIVED IN DASHBOARD:", data);
-   setAllNews(data)}}
-/>
+            <NewsFeed
+            onViewAll={() => setShowAllFeed(true)}
+            onDataLoaded={(data) =>{
+                console.log("DATA RECEIVED IN DASHBOARD:", data);
+            setAllNews(data)}}
+            />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
          <StatsPanel/>
@@ -115,7 +119,15 @@ export default function AdminDashboard(){
                 setSidebarOpen (false);
             }}
             onChatClick={()=> setChatOpen(true)}
-            />
+              onProfileClick={() => {
+                setProfileOpen(true);
+                setSidebarOpen(false);
+            }}
+              onSettingsClick={() => {
+                setSettingsOpen(true);
+                setSidebarOpen(false);
+            }}
+                        />
               {/* <div className="h-[40vh]"></div> */}
         <section className="bg-[#1F3347] py-20 px-[12%] text-center">
             <h2 className="text-4xl font-bold mb-4 text-[#2b5c8a]">About YuvaLink</h2>
@@ -133,7 +145,14 @@ export default function AdminDashboard(){
             2025 YuvaLink.ALL rights reserved.
         </p>
         </footer>
-
+        <User
+            isOpen={profileOpen}
+            onClose={() => setProfileOpen(false)}
+        />
+        <SettingAdmin
+            isOpen={settingsOpen}
+            onClose={() => setSettingsOpen(false)}
+            />
         {showAllFeed&&(
             <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] flex items-center justify-center">
                 <div className="w-[78%] max-w-[1000px] bg-white rounded-3xl p-8 flex flex-col max-h-[105vh]">
@@ -178,6 +197,7 @@ export default function AdminDashboard(){
             </div>
             </div>
         )}
+   
          </>
 
     );
